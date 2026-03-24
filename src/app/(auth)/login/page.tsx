@@ -8,7 +8,7 @@ export default function LoginPage() {
       <div className="hidden md:block md:w-1/2 relative">
         <div className="absolute inset-0 bg-black/30 z-10" />
         <Image
-          src="https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=1500&auto=format&fit=crop"
+          src="/assets/CornerView.jpg"
           alt="A spiritual journey showing calm earth tones"
           fill
           className="object-cover"
@@ -70,9 +70,15 @@ export default function LoginPage() {
             <div className="flex flex-col gap-3">
               <button
                 formAction={login}
-                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[var(--accent)] hover:bg-[#A36D48] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--accent)] transition-colors font-jost tracking-wide"
+                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[var(--accent)] hover:bg-[#A36D48] font-jost transition-colors"
               >
                 Sign In
+              </button>
+              <button
+                formAction={signup}
+                className="w-full flex justify-center py-3 px-4 border border-[var(--accent)] rounded-md shadow-sm text-sm font-medium text-[var(--accent)] bg-transparent hover:bg-stone-50 font-jost transition-colors"
+              >
+                Create Account (Test)
               </button>
             </div>
             
