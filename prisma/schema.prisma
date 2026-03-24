@@ -1,0 +1,94 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String       @id @default(cuid())
+  email         String       @unique
+  passwordHash  String?
+  phone         String?
+  phoneVerified Boolean      @default(false)
+  avatarUrl     String?
+  provider      String       @default("email") // "google" | "apple" | "email"
+  createdAt     DateTime     @default(now())
+  enrollments   Enrollment[]
+  profile       Profile?
+}
+
+model Profile {
+  id        String  @id @default(cuid())
+  userId    String  @unique
+  firstName String?
+  lastName  String?
+  bio       String?
+  user      User    @relation(fields: [userId], references: [id])
+}
+
+model Course {
+  id           String    @id @default(cuid())
+  title        String
+  slug         String    @unique
+  description  String
+  thumbnailUrl String?
+  introVideoUrl String?
+  totalHours   Float
+  price        Decimal   @db.Decimal(10, 2)
+  currency     String    @default("KES")
+  isPublished  Boolean   @default(false)
+  audience     String?   // e.g. "women", "leaders", "youth"
+  topic        String?   // e.g. "identity", "faith", "purpose"
+  instructorId String
+  instructor   Instructor @relation(fields: [instructorId], references: [id])
+  modules      Module[]
+  enrollments  Enrollment[]
+  createdAt    DateTime  @default(now())
+}
+
+model Instructor {
+  id        String   @id @default(cuid())
+  name      String
+  bio       String
+  avatarUrl String?
+  courses   Course[]
+}
+
+model Module {
+  id          String  @id @default(cuid())
+  courseId    String
+  title       String
+  description String?
+  order       Int
+  videoUrl    String?
+  duration    Int?    // minutes
+  course      Course  @relation(fields: [courseId], references: [id])
+}
+
+model Enrollment {
+  id        String   @id @default(cuid())
+  userId    String
+  courseId  String
+  status    String   @default("active") // "active" | "completed" | "refunded"
+  enrolledAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  course    Course   @relation(fields: [courseId], references: [id])
+  payment   Payment?
+
+  @@unique([userId, courseId])
+}
+
+model Payment {
+  id           String   @id @default(cuid())
+  enrollmentId String   @unique
+  reference    String   @unique // Paystack ref
+  amount       Decimal  @db.Decimal(10, 2)
+  currency     String
+  method       String   // "card" | "mpesa" | "paypal" | "bank"
+  status       String   @default("pending") // "pending" | "success" | "failed"
+  paidAt       DateTime?
+  enrollment   Enrollment @relation(fields: [enrollmentId], references: [id])
+}
