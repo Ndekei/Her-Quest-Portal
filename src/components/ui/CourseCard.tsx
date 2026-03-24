@@ -1,10 +1,16 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { Prisma } from '@prisma/client'
-
-type CourseWithRelations = Prisma.CourseGetPayload<{
-  include: { modules: true }
-}>
+type CourseWithRelations = {
+  id: string
+  title: string
+  slug: string
+  description: string
+  thumbnailUrl: string | null
+  totalHours: number
+  price: any
+  currency: string
+  modules: any[]
+}
 
 export function CourseCard({ course, isEnrolled }: { course: CourseWithRelations, isEnrolled: boolean }) {
   return (

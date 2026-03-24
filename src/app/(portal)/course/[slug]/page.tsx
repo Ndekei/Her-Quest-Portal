@@ -27,7 +27,7 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
     include: { enrollments: true }
   })
 
-  const isEnrolled = !!dbUser?.enrollments.find(e => e.courseId === course.id)
+  const isEnrolled = !!dbUser?.enrollments.find((e: any) => e.courseId === course.id)
 
   return (
     <div className="min-h-screen bg-[var(--bg)] pb-24 relative">
@@ -80,7 +80,7 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
             </h2>
             <div className="space-y-4">
               {course.modules.length > 0 ? (
-                course.modules.map((mod, i) => (
+                course.modules.map((mod: any, i: number) => (
                   <div key={mod.id} className="p-6 border border-stone-200 rounded-xl bg-[var(--surface)] hover:border-[var(--accent)] transition-colors">
                     <div className="flex gap-6 items-start">
                       <div className="font-jost text-stone-300 text-3xl font-light w-8">
