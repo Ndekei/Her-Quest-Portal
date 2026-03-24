@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Cormorant_Garamond, Jost } from 'next/font/google'
+import { ThemeProvider } from '@/components/theme/ThemeProvider'
 import './globals.css'
 
 const cormorantGaramond = Cormorant_Garamond({
@@ -28,7 +29,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${cormorantGaramond.variable} ${jost.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-[var(--bg)] text-[var(--text)] transition-colors duration-300 font-sans">
-        {children}
+        <ThemeProvider>
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   )
